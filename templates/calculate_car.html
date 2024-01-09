@@ -1,0 +1,19 @@
+<!-- carbon_offset_app/templates/calculate_car.html -->
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+
+{% block content %}
+
+  <div class="lg:w-1/2 md:w-2/3 mx-auto">
+    <div class="flex flex-wrap -m-2">
+
+        <h2>Calculate Carbon Offset for Car</h2>
+
+  <form method="post" action="{% url 'calculate_car' %}">
+    {% csrf_token %} {{ car_form|crispy }}{{ transportation_form|crispy }}
+
+    <button type="submit">Calculate</button>
+  </form>
+</div>
+</div>
+{% endblock %}
