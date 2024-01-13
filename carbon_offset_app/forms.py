@@ -1,6 +1,6 @@
 # carbon_offset_app/forms.py
 from django import forms
-from .models import Transportation, Car
+from .models import Transportation, TransportationFlight, TransportationBoat, Car, Flight
 
 class CarForm(forms.Form):
     car_type = forms.ChoiceField(choices=[
@@ -22,6 +22,37 @@ class TransportationForm(forms.ModelForm):
     class Meta:
         model = Transportation
         fields = ['car']
+
+class FlightForm(forms.Form):
+    flight_type = forms.ChoiceField(choices=[
+        ('economy', 'Economy'),
+        ('premium', 'Premium'),
+    ])
+
+class TransportationFlightForm(forms.ModelForm):
+    distance = forms.FloatField()
+    distance_type = forms.ChoiceField(choices=[
+        ('hour', 'Hour'),
+        ('km', 'Kilometer'),
+    ])
+
+    class Meta:
+        model = TransportationFlight
+        fields = ['flight']
+
+class BoatForm(forms.Form):
+    boat_type = forms.ChoiceField(choices=[
+        ('cruise', 'Cruise'),
+        ('live_aboard', 'Live aboard'),
+    ])
+
+class TransportationBoatForm(forms.ModelForm):
+    days = forms.FloatField()
+    people = forms.FloatField()
+
+    class Meta:
+        model = TransportationBoat
+        fields = ['boat']
 
 class PaymentForm(forms.Form):
     card_number = forms.CharField(label='Card Number', max_length=16, widget=forms.TextInput(attrs={'placeholder': 'Enter your card number'}))

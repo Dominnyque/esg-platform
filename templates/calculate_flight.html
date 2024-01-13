@@ -1,0 +1,61 @@
+
+<!-- carbon_offset_app/templates/calculate_car.html -->
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% block content %}
+
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+      <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+
+        <div class="flex mb-4">
+            <a href="{% url 'calculate_car' %}"  class="flex-grow border-2 text-center border-gray-300 py-2 text-lg px-1"><i class="fas fa-car"></i> Car</a>
+            <a class="flex-grow text-center text-indigo-500 border-2 border-indigo-500 py-2 text-lg px-1"><i class="fas fa-plane-departure"></i>Flight</a>
+            <a href="{% url 'calculate_boat' %}" class="flex-grow text-center border-2 border-gray-300 py-2 text-lg px-1"><i class="fas fa-ship"></i>Boat</a>
+          </div>
+
+        <h1 class="title-font font-medium text-3xl text-gray-900">Calculate Carbon Offset for Car</h1>
+
+
+        <form method="post" action="{% url 'calculate_flight' %}">
+            {% csrf_token %} {{ flight_form|crispy }}{{ transportation_form|crispy }} {{ form.fields.as_hidden }}
+
+            <button type="submit">Calculate</button>
+          </form>
+
+      </div>
+      <div class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+        <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Your Carbon Footprint</h2>
+        <div class="relative mb-4">
+            <p>Cost in Euro: {{ cost_in_euro }}</p>
+            <p>Cost in Euro (multiplier): {{ cost_in_euro_multiplier }}</p>
+        </div>
+
+        <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Offset Now</button>
+        <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Calculate Carbon Offset - Flight</h2>
+  <form method="post" action="{% url 'calculate_flight' %}">
+    {% csrf_token %}
+    {{ flight_form.as_p }}
+    {{ transportation_form.as_p }}
+    <button type="submit">Calculate</button>
+  </form>
+{% endblock %}

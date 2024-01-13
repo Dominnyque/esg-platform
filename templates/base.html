@@ -5,12 +5,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>CRM Project</title>
+    <title>Climate Neutral Sports</title>
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+
     <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
  </head>
   <body>
-    <div class="max-W-7xl mx-auto" > 
+    <div class="max-W-7xl mx-auto" >
     {% include "navbar.html" %}
     {% block content %}
 
