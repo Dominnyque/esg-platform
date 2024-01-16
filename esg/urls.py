@@ -24,5 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('store/', include ('store.urls', namespace="store")),
     path('carbon/', include('carbon_offset_app.urls')),
-    path('', HomePageView.as_view(), name= "home"),
+    path('', include('pages.urls')),
+    path('home2/', HomePageView.as_view(), name= "home"),
 ]
