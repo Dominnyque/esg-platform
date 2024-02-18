@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<header>
+    <div
+      class="relative overflow-hidden bg-cover bg-no-repeat"
+      style="
+        background-position: 50%;
+        background-image: url('https://tecdn.b-cdn.net/img/new/slides/146.webp');
+        height: 350px;
+      ">
+      <div
+        class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed"
+        style="background-color: rgba(0, 0, 0, 0.75)">
+        <div class="flex h-full items-center justify-center">
+          <div class="px-6 text-center text-white md:px-12">
+            <h1 class="mb-6 text-5xl font-bold">Measure Your Carbon Footprint</h1>
+
+            <a href = "{% url "calculate_car" %}"
+
+              class="inline-block rounded border-2 border-neutral-50 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50 transition duration-150 ease-in-out hover:border-neutral-100 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-neutral-100 focus:border-neutral-100 focus:text-neutral-100 focus:outline-none focus:ring-0 active:border-neutral-200 active:text-neutral-200 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+              data-te-ripple-init
+              data-te-ripple-color="light">
+              Measure Your Footprint Here
+          </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="grid max-w-screen-xl px-4 py-24 m-12 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+        <div class="mr-auto place-self-center lg:col-span-7">
+            <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">Carbon footprint Measurements</h1>
+            <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 text-justify ">Calculating the carbon footprint is imperative for sports clubs, as it aligns with the growing global emphasis on environmental sustainability. In an era where climate change concerns are at the forefront, sports organizations like yours play a pivotal role in influencing societal behavior. By meticulously measuring and understanding your carbon footprint, you gain insights into the environmental impact of your operations, from travel to energy consumption. This knowledge not only allows you to identify areas for improvement but also positions you as responsible stewards of the environment.</p>
+
+            <a href="{% url "calculate_car" %}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white border border-green-300 bg-green-700 rounded-lg hover:bg-green-500 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                Measure your footprint here
+            </a>
+        </div>
+        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+            <img src="{% static 'esg-resposible-sport.jpg' %}" alt="Sports" class="object-cover object-center rounded" >
+        </div>
+    </div>
+</section>
+
+
+
+
+<section class="dark:bg-gray-900 bg-green-100">
+    <div class="gap-16 items-center py-24 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+        <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Carbon footprint offsetting</h2>
+            <p class="mb-4 text-justify">Offsetting your carbon footprint is of paramount importance for sports clubs, as it allows you to take concrete steps towards environmental responsibility. While reducing emissions is crucial, it may be challenging to eliminate your carbon impact. Carbon offsetting provides a practical solution by investing in projects that reduce or capture an equivalent amount of greenhouse gases elsewhere. It does not only help environmental conservation but also demonstrates your commitment to sustainability, setting a positive example for fans, sponsors, and other stakeholders. </p>
+            <p>Offsetting allows you to contribute to global efforts in combating climate change, fostering a sense of social responsibility, and reinforcing your role as leaders in promoting a greener and more sustainable future.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-8">
+            <img class="w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1">
+            <img class="mt-4 w-full lg:mt-10 rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png" alt="office content 2">
+        </div>
+
+
+        <div class=" justify-center border-2 border-green-200 rounded p-4 shadow-lg mt-4">
+            <p class=" mb-4 "> Select a Sport event and calculate your carbon footprint</p>
+            <a href="{% url "calculate_car" %}" class="text-white bg-green-700 border-0 py-2 px-6 focus:outline-none hover:bg-green-500 rounded text-lg">Go to Calculator</a>
+
+            <p class="mt-12 mb-4 "> Already know your carbon footprint, offset by amounts (Euro or metric tons)</p>
+            <a href="{% url "calculate_car" %}" class="text-white bg-green-700 border-0 py-2 px-6 focus:outline-none hover:bg-green-500 rounded text-lg">Offset Now </a>
+        </div>
+
+</div>
+</section>
+
+
+<section id="section3" class="bg-white dark:bg-gray-900">
+    <div class="container mx-auto flex px-5 py-48 items-center justify-center flex-col">
+        <div class="text-center lg:w-2/3 w-full">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Sustainable sports</h2>
+            <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400 text-center"> Beyond mere compliance with environmental regulations, calculating the carbon footprint enables you to demonstrate leadership and set an example for your fan base and corporate partners. Embracing sustainable practices not only mitigates the ecological impact but also enhances your reputation, fostering a sense of community engagement and social responsibility. Ultimately, the pursuit of a smaller carbon footprint is a crucial step towards a greener, more sustainable future for the sports industry and the planet as a whole.</p>
+
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock content %}

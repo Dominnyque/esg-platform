@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <header>
+    <div class="relative overflow-hidden bg-cover bg-no-repeat" style="
+        background-position: 50%;
+        background-image: url('https://tecdn.b-cdn.net/img/new/slides/146.webp');
+        height: 350px;
+      ">
+      <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed" style="background-color: rgba(0, 0, 0, 0.75)">
+        <div class="flex h-full items-center justify-center">
+          <div class="px-6 text-center text-white md:px-12">
+            <h1 class="mb-6 text-5xl font-bold">Our Work</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="bg-white dark:bg-gray-900">
+    <div class="gap-16 items-center py-24 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+      <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Project development</h2>
+        <p class="mb-4 text-justify">Climate Neutral Sports is not merely an advocate for carbon neutrality within the sports industry; it is a catalyst for positive change that extends beyond environmental impact. The organization strategically focuses on offset projects that transcend the singular goal of reducing carbon footprints, ensuring a dual impact on both the planet and the communities where these initiatives unfold. By actively participating in the voluntary carbon market, sports clubs and fans align themselves with projects that not only mitigate global warming but also uplift the lives of individuals in the global south.</p>
+        <p>This approach signifies a commitment to holistic sustainability, where the pursuit of environmental equilibrium harmoniously intertwines with social responsibility, creating a meaningful and lasting legacy for both the planet and its inhabitants. Joining the Climate Neutral Sports Movement becomes a transformative act, where the love for sports converges with a conscientious effort to build a better, more equitable world.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-4 mt-8">
+        <img class="w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1" />
+        <img class="mt-4 w-full lg:mt-10 rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png" alt="office content 2" />
+      </div>
+    </div>
+  </section>
+
+  <section class="text-gray-600 body-font mb-24 bg-green-100">
+    <div class="container px-5 py-8 mx-auto">
+      <div class="flex flex-col text-center w-full mb-12">
+        <p class="lg:w-2/3 mx-auto mb-4">
+          Since we work with the sport industry, <strong>our priority therefore is to develop projects that are in line with sports, namely the construction of playgrounds and other light sports infrastructure (pitches, terrain).</strong> In addition, we also support projects such as reforestation, cookstoves, education, health, etc. Every project in its kind contributes to the United Nations Sustainable Development Goals (SDGs).
+        </p>
+
+        <h2 class="mb-4 mt-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Projects we are developing and supporting</h2>
+
+        <section class="text-gray-600 body-font">
+          <div class="container px-5 py-8">
+            <div class="flex flex-wrap -m-4">
+              <div class="p-4 lg:w-1/2 m-auto">
+                <div class="h-full bg-green-500 bg-opacity-75 px-8 pt-16 pb-8 rounded-lg overflow-hidden text-center relative">
+                  <p class="leading-relaxed mb-3 text-white">Nature Based Solutions (Reforestation in the Tropical rainforests which accounts for Social Impact (Improved cookstoves, building playgrounds and sports facilities from recycled materials)</p>
+                </div>
+              </div>
+              <div class="p-4 lg:w-1/2">
+                <div class="h-full bg-green-500 bg-opacity-75 px-8 pt-16 pb-8 rounded-lg overflow-hidden text-center relative">
+                  <p class="leading-relaxed mb-3 text-white">Projects aiming at empowering local communities (education, health facilities).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+    <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+
+      <div class="flex mb-4">
+        <h2 class="mb-4 mt-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Consultancy</h2>
+      </div>
+
+      <p class="font-medium text-justify">
+          Climate Neutral Sports (CNS) is a pioneering company dedicated to making a sustainable impact in the sports industry by offering comprehensive consulting services. Specializing in guiding sports clubs and fans in the fight against global warming, CNS follows a strategic five-step process. Firstly, they meticulously
+          <strong>measure the carbon footprint
+          </strong> associated with the activities of sports clubs and their fans. Next, CNS collaborates with stakeholders to
+          <strong>set ambitious reduction targets  </strong>tailored to each entity's unique context. The third step involves
+          <strong>implementing effective strategies</strong> to achieve these targets, ranging from adopting eco-friendly practices to embracing renewable energy solutions. To further solidify their commitment,
+          <strong>CNS facilitates the compensation phase,</strong> supporting initiatives that offset any remaining emissions. Lastly, the company emphasizes
+          <strong>transparent communication,</strong> ensuring that both sports clubs and fans are well-informed and engaged in the collective effort to reduce carbon footprints. With CNS, the sports industry can lead the way in promoting environmental sustainability and addressing the challenges of climate change.
+
+      </p>
+
+
+
+
+    </div>
+    <div class="lg:w-2/6 md:w-1/2 rounded-lg flex flex-col md:ml-auto w-full md:mt-0">
+
+        <img src="{% static 'esg-resposible-sport.jpg' %}" alt="Sports" class="mt-24 object-cover object-center rounded" >
+
+
+    </div>
+  </div>
+</section>
+
+
+
+<section class="text-gray-600 body-font mb-24">
+  <div class="container px-5 py-8 mx-auto border-2 border-green-300 rounded-xl">
+    <div class="flex flex-col text-center w-full mb-12">
+      <h2 class="mb-4 mt-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Carbon emission measurement</h2>
+      <p class="lg:w-2/3 mx-auto mb-4 text-justify">
+        CNS stands at the forefront of environmental innovation with its cutting-edge automated calculator tailored for sports clubs and fans. This user-friendly tool revolutionizes the process of measuring carbon footprints by providing an affordable and easy-to-use solution that empowers organizations and individuals to directly manage their sustainability initiatives. Developed in adherence to international standards such as the GHG Protocol and the UNFCCC, the calculator ensures a fairly accurate estimation of carbon footprints based on the information supplied by the user. This strategic approach not only enhances transparency but also positions CNS as a leader in delivering precise, actionable insights to sports entities and their enthusiastic fan base, fostering a collective commitment to combating climate change in the world of sports.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="text-gray-600 body-font mb-24">
+  <div class="container px-5 py-8 mx-auto border-2 border-green-300 rounded-xl">
+    <div class="flex flex-col text-center w-full mb-12">
+      <h2 class="mb-4 mt-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Offsetting solutions</h2>
+      <p class="lg:w-2/3 mx-auto mb-4 text-justify">
+        In an era where the sports industry plays a substantial role in global warming, acknowledging the importance of carbon footprint offsetting has become imperative. The undeniable environmental impact of the carbon dioxide generated by sporting events necessitates a concerted effort to mitigate its effects. Recognizing this challenge, Climate Neutral Sports (CNS), a sustainability-focused company, takes a proactive stance by developing offsetting projects and offering tailored solutions to sports clubs and their fans. CNS understands that achieving Net Zero by 2050 requires a comprehensive approach that addresses the carbon emissions inherent in sports-related activities. By providing offsetting options, CNS enables sports entities and their passionate fan base to neutralize their carbon footprints and contribute to broader environmental conservation efforts. This commitment aligns sports with a sustainable future, demonstrating how CNS is leading the charge in transforming the industry into a force for positive environmental change.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

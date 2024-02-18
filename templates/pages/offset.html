@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<header>
+    <div
+      class="relative overflow-hidden bg-cover bg-no-repeat"
+      style="
+        background-position: 50%;
+        background-image: url('https://tecdn.b-cdn.net/img/new/slides/146.webp');
+        height: 350px;
+      ">
+      <div
+        class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed"
+        style="background-color: rgba(0, 0, 0, 0.75)">
+        <div class="flex h-full items-center justify-center">
+          <div class="px-6 text-center text-white md:px-12">
+            <h1 class="mb-6 text-5xl font-bold">Offset</h1>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="gap-16 items-center py-24 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+        <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Carbon Offsetting</h2>
+            <p class="mb-4 text-justify">There are broadly two types of carbon markets: <span class="text-xl font-bold text-black"> compliance </span>  and <span class="text-xl font-bold text-black"> voluntary</span>.</p>
+            <p class="mb-4 text-justify">
+                Compliance markets are created as a result of any national, regional, and/or international policy or regulatory requirement, while Voluntary carbon markets (national and international) refer to the issuance, buying and selling of carbon credits, on a voluntary basis.
+            </p>
+            <p class="mb-4 text-justify">
+                CNS focuses mainly on the Voluntary carbon market and is offering sports clubs and fans the possibility of a carbon offset program through projects that remove or avoid emissions by protecting natural ecosystems, facilitating clean, efficient energy use, and building infrastructure (playgrounds, schools, sport facilities, hospitals) to benefit local communities and therefore contribute to the achievement of the SDGs.
+            </p>
+
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-8">
+            <img class="w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1">
+            <img class="mt-4 w-full lg:mt-10 rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png" alt="office content 2">
+        </div>
+
+</div>
+</section>
+
+<section class="text-gray-600 body-font py-24 bg-green-200">
+    <div class="container px-5 py-8 mx-auto border-2 border-white rounded-xl">
+      <div class="flex flex-col text-center w-full mb-12">
+
+        <p class="lg:w-2/3 mx-auto mb-4 text-justify ">
+            Climate Neutral Sports is not merely an advocate for carbon neutrality within the sports industry; it is a catalyst for positive change that extends beyond environmental impact. The organization strategically focuses on offset projects that transcend the singular goal of reducing carbon footprints, ensuring a dual impact on both the planet and the communities where these initiatives unfold. By actively participating in the voluntary carbon market, sports clubs and fans align themselves with projects that not only mitigate global warming but also uplift the lives of individuals in the global south. This approach signifies a commitment to holistic sustainability, where the pursuit of environmental equilibrium harmoniously intertwines with social responsibility, creating a meaningful and lasting legacy for both the planet and its inhabitants. Joining the Climate Neutral Sports Movement becomes a transformative act, where the love for sports converges with a conscientious effort to build a better, more equitable world.
+        </p>
+
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <section class="text-gray-600 body-font mt-24 mb-24">
+    <div class="container px-5 py-8 mx-auto border-2 border-green-200 rounded-xl">
+      <div class="flex flex-col text-center w-full mb-12">
+
+        <div class=" justify-center mt-8">
+            <p class="lg:w-2/3 mx-auto mb-4 "> Select a Sport event and calculate your carbon footprint</p>
+            <a href="{% url "calculate_car" %}" class="text-white bg-green-700 border-0 py-2 px-6 focus:outline-none hover:bg-green-500 rounded text-lg">Go to Calculator</a>
+
+            <p class="lg:w-2/3 mx-auto mt-12 mb-4 "> Already know your carbon footprint, offset by amounts (Euro or metric tons)</p>
+            <a href="{% url "calculate_car" %}" class="text-white bg-green-700 border-0 py-2 px-6 focus:outline-none hover:bg-green-500 rounded text-lg">Offset Now </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+
+{% endblock content %}

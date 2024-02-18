@@ -1,6 +1,6 @@
 # carbon_offset_app/forms.py
 from django import forms
-from .models import Transportation, TransportationFlight, TransportationBoat, Car, Flight
+from .models import Transportation, TransportationFlight, TransportationBoat, Car, Flight, Event
 
 class CarForm(forms.Form):
     car_type = forms.ChoiceField(choices=[
@@ -21,7 +21,10 @@ class TransportationForm(forms.ModelForm):
 
     class Meta:
         model = Transportation
-        fields = ['car']
+        fields = ['car']  # Include 'car' here temporarily
+        widgets = {
+            'car': forms.HiddenInput(),  # Hide 'car' field
+        }
 
 class FlightForm(forms.Form):
     flight_type = forms.ChoiceField(choices=[
@@ -35,10 +38,14 @@ class TransportationFlightForm(forms.ModelForm):
         ('hour', 'Hour'),
         ('km', 'Kilometer'),
     ])
+    event = forms.ModelChoiceField(queryset=Event.objects.all(), empty_label=None)
 
     class Meta:
         model = TransportationFlight
-        fields = ['flight']
+        fields = ['event', 'distance_type', 'distance', 'flight']
+        widgets = {
+            'flight': forms.HiddenInput(),
+        }
 
 class BoatForm(forms.Form):
     boat_type = forms.ChoiceField(choices=[
@@ -52,7 +59,10 @@ class TransportationBoatForm(forms.ModelForm):
 
     class Meta:
         model = TransportationBoat
-        fields = ['boat']
+        fields = ['boat']  # Include 'boat' here temporarily
+        widgets = {
+            'boat': forms.HiddenInput(),  # Hide 'boat' field
+        }
 
 class PaymentForm(forms.Form):
     card_number = forms.CharField(label='Card Number', max_length=16, widget=forms.TextInput(attrs={'placeholder': 'Enter your card number'}))

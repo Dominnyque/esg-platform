@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from .forms import CarForm, TransportationForm, TransportationFlightForm, FlightForm, TransportationBoatForm, BoatForm
-from .models import Transportation, TransportationFlight, Flight
+from .models import Transportation, TransportationFlight, Flight, Event
 
 class CalculateCarbonOffsetCarView(FormView):
     template_name = 'calculate_car.html'
@@ -88,6 +88,10 @@ class CalculateCarbonOffsetFlightView(FormView):
             transportation = self.form_class_transportation(self.request.POST)
             if transportation.is_valid():
                 transportation_instance = transportation.save(commit=False)
+
+                # Set the event based on the selected value
+                event_id = transportation.cleaned_data['event']
+                transportation_instance.event_id = event_id
 
                 # If user is authenticated, use their user instance
                 if self.request.user.is_authenticated:

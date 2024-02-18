@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<header>
+    <div
+      class="relative overflow-hidden bg-cover bg-no-repeat"
+      style="
+        background-position: 50%;
+        background-image: url('https://tecdn.b-cdn.net/img/new/slides/146.webp');
+        height: 350px;
+      ">
+      <div
+        class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed"
+        style="background-color: rgba(0, 0, 0, 0.75)">
+        <div class="flex h-full items-center justify-center">
+          <div class="px-6 text-center text-white md:px-12">
+            <h1 class="mb-6 text-5xl font-bold">Carbon footprint measurements</h1>
+
+            <a href = "{% url "calculate_car" %}"
+
+              class="inline-block rounded border-2 border-neutral-50 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50 transition duration-150 ease-in-out hover:border-neutral-100 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-neutral-100 focus:border-neutral-100 focus:text-neutral-100 focus:outline-none focus:ring-0 active:border-neutral-200 active:text-neutral-200 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+              data-te-ripple-init
+              data-te-ripple-color="light">
+              Measure Your Footprint Here
+          </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="gap-16 items-center py-24 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+        <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Carbon footprint offsetting</h2>
+            <p class="mb-4 text-justify">Calculating the carbon footprint of sports fans is an essential practice to gauge the environmental impact of your activities. The comprehensive calculation method considers various factors, including the extensive travel undertaken to support your favorite teams and the associated accommodations. By quantifying these elements, as a fan, you gain a nuanced understanding of your environmental impact, fostering awareness about the broader consequences of your lifestyle choices.  </p>
+            <p>This initiative goes beyond mere measurement; it empowers you to actively engage in minimizing their ecological footprint. With this, you can make informed decisions to optimize your lifestyle, reduce unnecessary emissions, and contribute to environmental sustainability. In essence, the calculation not only serves as an awareness tool but also as a catalyst for positive change in the way sports enthusiasts interact with the environment. </p>
+
+            <a href="{% url "calculate_car" %}" class="inline-flex mt-12 items-center justify-center px-5 py-2 text-base font-medium text-center text-white border border-green-300 bg-green-700 rounded-lg hover:bg-green-500 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                Measure your footprint here
+            </a>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-8">
+            <img class="w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1">
+            <img class="mt-4 w-full lg:mt-10 rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png" alt="office content 2">
+        </div>
+
+</div>
+</section>
+
+<section class="text-gray-600 body-font mb-24">
+    <div class="container px-5 py-8 mx-auto border-2 border-green-200 rounded-xl">
+      <div class="flex flex-col text-center w-full mb-12">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Carbon footprint offsetting</h2>
+        <p class="lg:w-2/3 mx-auto mb-4 ">The incorporation of a compensation feature allows you to invest in sustainable projects, providing a tangible way to offset your carbon footprint and participate in collective efforts toward a greener planet. </p>
+
+
+        <div class=" justify-center mt-8">
+            <p class="lg:w-2/3 mx-auto mb-4 "> Select a Sport event and calculate your carbon footprint</p>
+            <a href="{% url "calculate_car" %}" class="text-white bg-green-700 border-0 py-2 px-6 focus:outline-none hover:bg-green-500 rounded text-lg">Go to Calculator</a>
+
+            <p class="lg:w-2/3 mx-auto mt-12 mb-4 "> Already know your carbon footprint, offset by amounts (Euro or metric tons)</p>
+            <a href="{% url "calculate_car" %}" class="text-white bg-green-700 border-0 py-2 px-6 focus:outline-none hover:bg-green-500 rounded text-lg">Offset Now </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+
+
+{% endblock content %}

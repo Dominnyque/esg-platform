@@ -53,3 +53,13 @@ class TransportationBoat(models.Model):
     people = models.FloatField()
 
     carbon_emission = models.FloatField(null=True, blank=True)
+
+class Event(models.Model):
+    name = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    country = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
