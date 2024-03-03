@@ -17,27 +17,48 @@ class Transportation(models.Model):
     car = models.OneToOneField(Car, on_delete=models.CASCADE, null=True, blank=True)
     distance = models.FloatField()
     distance_type = models.CharField(max_length=5, choices=[
-        ('hour', 'Hour'),
+        # ('hour', 'Hour'),
         ('km', 'Kilometer'),
     ])
     carbon_emission = models.FloatField(null=True, blank=True)
+
+# class Flight(models.Model):
+#     car_type = models.CharField(max_length=50, choices=[
+#         ('economy', 'Economy'),
+#         ('premium', 'Premium'),
+
+#     ])
+
+# class TransportationFlight(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     flight = models.OneToOneField(Car, on_delete=models.CASCADE, null=True, blank=True)
+#     distance = models.FloatField()
+#     distance_type = models.CharField(max_length=5, choices=[
+#         ('hour', 'Hour'),
+#         ('km', 'Kilometer'),
+#     ])
+#     carbon_emission = models.FloatField(null=True, blank=True)
+
+
 
 class Flight(models.Model):
     car_type = models.CharField(max_length=50, choices=[
         ('economy', 'Economy'),
         ('premium', 'Premium'),
-
     ])
 
 class TransportationFlight(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    flight = models.OneToOneField(Car, on_delete=models.CASCADE, null=True, blank=True)
-    distance = models.FloatField()
-    distance_type = models.CharField(max_length=5, choices=[
+    flight = models.OneToOneField(Flight, on_delete=models.CASCADE, null=True, blank=True)
+    flight_hours = models.FloatField()
+    distance_in = models.CharField(max_length=5, choices=[
         ('hour', 'Hour'),
-        ('km', 'Kilometer'),
+        # ('km', 'Kilometer'),
     ])
+    travelers = models.PositiveIntegerField(default=1)  # Number of travelers
     carbon_emission = models.FloatField(null=True, blank=True)
+
+
 
 class Boat(models.Model):
     boat_type = models.CharField(max_length=50, choices=[
@@ -62,4 +83,4 @@ class Event(models.Model):
     city = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.city}, {self.country}"

@@ -1,0 +1,76 @@
+<!-- carbon_offset_app/templates/calculate_car.html -->
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% block content %}
+
+<header>
+  <div
+    class="relative overflow-hidden bg-cover bg-no-repeat"
+    style="
+      background-position: 50%;
+      background-image: url('https://tecdn.b-cdn.net/img/new/slides/146.webp');
+      height: 300px;
+    ">
+    <div
+      class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed"
+      style="background-color: rgba(0, 0, 0, 0.75)">
+      <div class="flex h-full items-center justify-center">
+        <div class="px-6 text-center text-white md:px-12">
+          <h1 class="mb-6 text-5xl font-bold">Offset by Amount </h1>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+      <div class="lg:w-2/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0 ml-auto mr-auto">
+
+        <div class="flex mb-4">
+            <a href="{% url 'calculate_offset' %}" class="flex-grow text-center border-2 border-gray-300 py-2 text-lg px-1"> <i class="fa-solid fa-smog mr-4"></i> Offset By Metric tones</a>
+            <a class="flex-grow text-center text-green-500 border-2 border-green-400 rounded py-2 text-lg px-1"> <i class="fa-solid fa-euro-sign mr-4"> </i> Offset by Amount</a>
+
+          </div>
+
+        <h1 class="title-font font-medium text-3xl py-3 text-gray-900"> Enter The amount to offset </h1>
+
+
+        <form method="post">
+            {% csrf_token %} {{ form|crispy }}
+
+            <button class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg" type="submit">Offset Now</button>
+
+
+      </div>
+      <div class="lg:w-2/6 md:w-1/2 bg-green-100 rounded-lg p-8 flex flex-col md:ml-auto mr-auto w-full mt-10 md:mt-0">
+        <p class=" mb-4 "> Do not know your carbon footprint , Or the amount to Offsert ?</p>
+        <a href="{% url "calculate_car" %}" class="text-black mb-24 border-2 border-b-green-700 py-2 px-6 focus:outline-none hover:bg-green-300 rounded text-lg">Go to Calculator </a>
+
+        <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Carbon Footprint Calculation</h2>
+        <div class="relative mb-4">
+            <p>Based on Car type and the distance you traveled, we will estimate your carbon footprint.</p>
+            <p>Output is converted in Metric Tone</p>
+        </div>
+
+        <button type="submit" class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">Offset Now</button>
+        <p class="text-xs text-gray-500 mt-3">We consider output, a close approximation, however not 100% exact. Because other factors such as age of car and brand play </p>
+      </form>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

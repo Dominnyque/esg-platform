@@ -1,10 +1,11 @@
 # carbon_offset_app/views.py
 from django.contrib.auth.models import User
+from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from .forms import CarForm, TransportationForm, TransportationFlightForm, FlightForm, TransportationBoatForm, BoatForm
+from .forms import CarForm, TransportationForm, TransportationFlightForm, FlightForm, TransportationBoatForm, BoatForm, CarbonFootprintForm, OffsetByAmountForm
 from .models import Transportation, TransportationFlight, Flight, Event
 
 class CalculateCarbonOffsetCarView(FormView):
@@ -46,7 +47,7 @@ class CalculateCarbonOffsetCarView(FormView):
 
                 # Calculate cost in Euro (€) based on carbon emission (1€ per metric ton)
                 cost_in_euro = transportation_instance.carbon_emission
-                cost_in_euro_multiplier = cost_in_euro * 2
+                cost_in_euro_multiplier = cost_in_euro * 15
                 return render(
                     self.request,
                     'payment.html',
@@ -59,15 +60,15 @@ class CalculateCarbonOffsetCarView(FormView):
 
     def calculate_carbon_emission(self, car_type, distance, distance_type):
         emission_factors = {
-            'small_car': 0.2,
-            'luxury_car': 0.5,
-            'suv': 0.4,
-            'van': 0.4,
-            'hybrid_car': 0.2,
-            'motorcycle': 0.1,
+            'small_car': 0.0001743,
+            'luxury_car': 0.00032797,
+            'suv': 0.00021844,
+            'van': 0.0001912,
+            'hybrid_car': 0.00012,
+            'motorcycle': 0.0001136,
         }
 
-        multiplier = 0.13 if distance_type == 'hour' else 0.6
+        multiplier = 1 if distance_type == 'km' else 7.7900747
         return emission_factors[car_type] * distance * multiplier
 
 
@@ -103,18 +104,19 @@ class CalculateCarbonOffsetFlightView(FormView):
 
                 # Calculate carbon emission based on the selected car type, distance, and distance type
                 transportation_instance.carbon_emission = self.calculate_carbon_emission(
-                    flight_form.cleaned_data['flight_type'],
-                    transportation.cleaned_data['distance'],
-                    transportation.cleaned_data['distance_type']
+                    flight_form.cleaned_data['flight_class'],
+                    transportation.cleaned_data['flight_hours'],
+                    transportation.cleaned_data['distance_in'],
+                    transportation.cleaned_data['travelers']
                 )
 
-                transportation_instance.distance = transportation.cleaned_data['distance']
+                transportation_instance.flight_hours = transportation.cleaned_data['flight_hours']
 
                 transportation_instance.save()
 
                 # Calculate cost in Euro (€) based on carbon emission (1€ per metric ton)
                 cost_in_euro = transportation_instance.carbon_emission
-                cost_in_euro_multiplier = cost_in_euro * 2
+                cost_in_euro_multiplier = cost_in_euro * 15
                 return render(
                     self.request,
                     'payment.html',
@@ -125,13 +127,13 @@ class CalculateCarbonOffsetFlightView(FormView):
         # Handle form validation errors
         return render(self.request, self.template_name, {'flight_form': flight_form, 'transportation_form': transportation})
 
-    def calculate_carbon_emission(self, flight_type, distance, distance_type):
+    def calculate_carbon_emission(self, flight_class, flight_hours, distance_in, travelers):
         emission_factors = {
-            'economy': 0.6,
-            'premium': 0.9,
+            'economy': 0.1875,
+            'premium': 0.27333,
         }
-        multiplier = 0.13 if distance_type == 'hour' else 0.6
-        return emission_factors[flight_type] * distance * multiplier
+        multiplier = 1 if distance_in == 'hour' else 7.7
+        return emission_factors[flight_class] * flight_hours * multiplier*travelers
 
 
 class CalculateCarbonOffsetBoatView(FormView):
@@ -174,7 +176,7 @@ class CalculateCarbonOffsetBoatView(FormView):
 
                 # Calculate cost in Euro (€) based on carbon emission (1€ per metric ton)
                 cost_in_euro = transportation_instance.carbon_emission
-                cost_in_euro_multiplier = cost_in_euro * 2
+                cost_in_euro_multiplier = cost_in_euro * 15
                 return render(
                     self.request,
                     'payment.html',
@@ -187,8 +189,58 @@ class CalculateCarbonOffsetBoatView(FormView):
 
     def calculate_carbon_emission(self, boat_type, days, people):
         emission_factors = {
-            'cruise': 0.5,
-            'live_aboard': 1.4,
+            'cruise': 0.29266,
+            'live_aboard': 0.56066,
         }
-        multiplier = 0.13 #if distance_type == 'hour' else 0.6
+        multiplier = 1 #if distance_type == 'hour' else 0.6
         return emission_factors[boat_type] * days *people *multiplier
+
+
+class CalculateCarbonOffsetView(TemplateView):
+    template_name = 'calculate_offset.html'
+    success_url = reverse_lazy('payment_page')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CarbonFootprintForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = CarbonFootprintForm(request.POST)
+        if form.is_valid():
+            carbon_footprint = form.cleaned_data['carbon_footprint']
+            # Assuming 1 Euro per metric ton
+            cost_in_euro = carbon_footprint
+            cost_in_euro_multiplier = cost_in_euro * 15  # Converting to cents for Stripe
+            return render(
+                self.request,
+                'payment.html',
+                {'cost_in_euro': cost_in_euro, 'cost_in_euro_multiplier': cost_in_euro_multiplier, 'stripe_public_key': 'your_stripe_public_key'}
+                )
+        else:
+            return render(request, self.template_name, {'form': form})
+
+
+class CarbonOffsetByAmountView(TemplateView):
+    template_name = 'offset_by_amount.html'
+    success_url = reverse_lazy('payment_page')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = OffsetByAmountForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = OffsetByAmountForm(request.POST)
+        if form.is_valid():
+            footprint_offset = form.cleaned_data['footprint_offset']/15
+            # Assuming 1 Euro per metric ton
+            cost_in_euro = footprint_offset
+            cost_in_euro_multiplier = cost_in_euro * 15  # Converting to cents for Stripe
+            return render(
+                self.request,
+                'payment.html',
+                {'cost_in_euro': cost_in_euro, 'cost_in_euro_multiplier': cost_in_euro_multiplier, 'stripe_public_key': 'your_stripe_public_key'}
+                )
+        else:
+            return render(request, self.template_name, {'form': form})

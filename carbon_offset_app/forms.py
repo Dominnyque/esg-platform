@@ -11,11 +11,12 @@ class CarForm(forms.Form):
         ('hybrid_car', 'Hybrid Car'),
         ('motorcycle', 'Motorcycle'),
     ])
+    event = forms.ModelChoiceField(queryset=Event.objects.all(), empty_label=None)
 
 class TransportationForm(forms.ModelForm):
     distance = forms.FloatField()
     distance_type = forms.ChoiceField(choices=[
-        ('hour', 'Hour'),
+        # ('hour', 'Hour'),
         ('km', 'Kilometer'),
     ])
 
@@ -27,22 +28,22 @@ class TransportationForm(forms.ModelForm):
         }
 
 class FlightForm(forms.Form):
-    flight_type = forms.ChoiceField(choices=[
+    flight_class = forms.ChoiceField(choices=[
         ('economy', 'Economy'),
         ('premium', 'Premium'),
     ])
 
 class TransportationFlightForm(forms.ModelForm):
-    distance = forms.FloatField()
-    distance_type = forms.ChoiceField(choices=[
+    flight_hours = forms.FloatField()
+    distance_in = forms.ChoiceField(choices=[
         ('hour', 'Hour'),
-        ('km', 'Kilometer'),
+        # ('km', 'Kilometer'),
     ])
     event = forms.ModelChoiceField(queryset=Event.objects.all(), empty_label=None)
 
     class Meta:
         model = TransportationFlight
-        fields = ['event', 'distance_type', 'distance', 'flight']
+        fields = ['event', 'distance_in', 'flight_hours', 'flight', 'travelers']
         widgets = {
             'flight': forms.HiddenInput(),
         }
@@ -54,6 +55,7 @@ class BoatForm(forms.Form):
     ])
 
 class TransportationBoatForm(forms.ModelForm):
+    event = forms.ModelChoiceField(queryset=Event.objects.all(), empty_label=None)
     days = forms.FloatField()
     people = forms.FloatField()
 
@@ -87,3 +89,9 @@ class PaymentForm(forms.Form):
         if not cvc.isdigit() or len(cvc) != 3:
             raise forms.ValidationError('Invalid CVC. Please enter a 3-digit CVC.')
         return cvc
+
+class CarbonFootprintForm(forms.Form):
+    carbon_footprint = forms.FloatField(label='Carbon Footprint (in metric tons)')
+
+class OffsetByAmountForm(forms.Form):
+    footprint_offset = forms.FloatField(label='Amount (in EUR)')
