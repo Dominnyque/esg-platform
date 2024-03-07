@@ -12,7 +12,7 @@ from .views import(ComingSoonView,
 
 
 urlpatterns = [
-    path('', ComingSoonView.as_view(), name = 'coming_soon'),
+    # path('', ComingSoonView.as_view(), name = 'coming_soon'),
     path('carbon-footprint-measurements/', CarbonFootprintMeasurements.as_view(), name='carbon-footprint-measurements'),
     path('our-work/', OurWorkView.as_view(), name='our-work'),
     path('carbon-footprint-measurements-fans/', FanCarbonFootprintMeasurementView.as_view(), name='carbon-footprint-fans'),
