@@ -15,5 +15,4 @@ urlpatterns = [
     path('calculate/boat/', CalculateCarbonOffsetBoatView.as_view(), name='calculate_boat'),
     path('calculate/', CalculateCarbonOffsetView.as_view(), name='calculate_offset'),
     path('offset-amount/', CarbonOffsetByAmountView.as_view(), name='offset_amount'),
-    # Add other URLs for flight, boat, and payment as needed
 ]

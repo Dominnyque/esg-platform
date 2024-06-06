@@ -5,6 +5,9 @@ from django.views import generic
 class ComingSoonView(generic.TemplateView):
     template_name = 'commingsoon.html'
 
+class HomePageView(generic.TemplateView):
+    template_name = 'home_page.html'
+
 class CarbonFootprintMeasurements(generic.TemplateView):
     template_name = 'pages/carbonfootprintmeasurement.html'
 
