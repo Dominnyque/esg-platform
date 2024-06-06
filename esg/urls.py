@@ -21,7 +21,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('store/', include ('store.urls', namespace="store")),
     path('carbon/', include('carbon_offset_app.urls')),
     path('', include('pages.urls')),
 ]
