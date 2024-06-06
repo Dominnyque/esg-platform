@@ -25,3 +25,4 @@ urlpatterns = [
     path('carbon/', include('carbon_offset_app.urls')),
     path('', include('pages.urls')),
 ]
+urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
