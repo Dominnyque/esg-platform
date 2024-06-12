@@ -5,7 +5,10 @@ from .views import(
     CalculateCarbonOffsetFlightView,
     CalculateCarbonOffsetBoatView,
     CalculateCarbonOffsetView,
-    CarbonOffsetByAmountView
+    CarbonOffsetByAmountView,
+    StripeCheckoutView,
+    SignUpView,
+    MyProfileView
 
 )
 
@@ -15,4 +18,7 @@ urlpatterns = [
     path('calculate/boat/', CalculateCarbonOffsetBoatView.as_view(), name='calculate_boat'),
     path('calculate/', CalculateCarbonOffsetView.as_view(), name='calculate_offset'),
     path('offset-amount/', CarbonOffsetByAmountView.as_view(), name='offset_amount'),
+    path('stripe-checkout/', StripeCheckoutView.as_view(), name='stripe-checkout'),
+    path('signup/', SignUpView.as_view(), name='signup'),
+    path('profile/', MyProfileView.as_view(), name='my_profile'),
 ]

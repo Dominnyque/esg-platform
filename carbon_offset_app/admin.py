@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Event
+from .models import Event, Offset
 
 # Register your models here.
 
@@ -8,3 +8,5 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ['name', 'start_date', 'end_date', 'country', 'city']
     search_fields = ['name', 'country', 'city']
     list_filter = ['start_date', 'end_date', 'country', 'city']
+
+admin.site.register(Offset)

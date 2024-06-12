@@ -5,29 +5,47 @@
 {% block content %}
 
 <section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+  <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
       <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-
-
-        <h1 class="title-font font-medium text-3xl text-center text-gray-900">Our Planet is Our Home</h1>
-        <img alt="gallery" class="w-full object-cover h-full object-center block" src="{% static "Save planet.jpg" %}">
-
-
-
+          <h1 class="title-font font-medium text-3xl text-center text-gray-900">Our Planet is Our Home</h1>
+          <img alt="gallery" class="w-full object-cover h-full object-center block" src="https://eu2.contabostorage.com/65ab792e253a4236b7573f2cc059f926:climate-neutral-sports-images/Save planet.jpg">
       </div>
       <div class="lg:w-2/6 md:w-1/2 bg-green-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-        <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Your Carbon Footprint</h2>
-        <div class="relative mb-4">
-            <p>Carbon Footprint: {{ cost_in_euro|floatformat:"2" }} MT</p>
-            <p>Carbon Offset: {{ cost_in_euro_multiplier|floatformat:"2" }}€</p>
-        </div>
+          <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Your Carbon Footprint</h2>
+          <div class="relative mb-4">
+              <p>Carbon Footprint: {{ cost_in_euro|floatformat:"2" }} MT</p>
+              <p>Carbon Offset: {{ cost_in_euro_multiplier|floatformat:"2" }}€</p>
+          </div>
+          {% if user.is_authenticated %}
+          <h1 class="title-font font-medium text-xl text-center text-gray-900">Offset Now</h1>
 
-        <button class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-700 rounded text-lg">Offset Now</button>
-        <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+          <form class="mb-12 mt-4 bg-green-600 text-center border-0 py-2 px-8 focus:outline-none hover:bg-black rounded text-lg" action="{% url 'stripe-checkout' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="amount_in_cents" value="{{ amount_in_cents }}">
+              <script
+                  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="{{ stripe_public_key }}"
+                  data-amount="{{ amount_in_cents }}"
+                  data-name="ESG"
+                  data-description="Carbon Offset"
+                  data-image="https://eu2.contabostorage.com/65ab792e253a4236b7573f2cc059f926:afronellys-static/site-images/afronellys-logo.png"
+                  data-locale="auto"
+                  data-currency="eur">
+              </script>
+          </form>
+          {% else %}
+          <h1 class="m-4 title-font font-medium text-xl text-center text-gray-900">Login to offset</h1>
+          <a class="mb-12 mt-4 bg-green-600 text-center text-white border-0 py-2 px-8 focus:outline-none hover:bg-black rounded text-lg" href="{% url 'login' %}">Login</a>
+          {% endif %}
 
-      <button onClick="javascript:history.go(-1)" class="text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-black rounded text-lg">Calculate again </button>
-    </div>
-    </div>
-  </section>
+          <button onClick="javascript:history.go(-1)" class="text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-black rounded text-lg">Calculate again</button>
+      </div>
+  </div>
+</section>
+
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
 
 {% endblock %}

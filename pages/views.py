@@ -1,7 +1,18 @@
 from django.shortcuts import render
 from django.views import generic
+from django.contrib.auth.views import LoginView
 
 # Create your views here.
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    redirect_authenticated_user = True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Login'
+        return context
+
 class ComingSoonView(generic.TemplateView):
     template_name = 'commingsoon.html'
 
@@ -30,3 +41,4 @@ class CareerView(generic.TemplateView):
     template_name = 'pages/career.html'
 class FAQView(generic.TemplateView):
     template_name = 'pages/faq.html'
+

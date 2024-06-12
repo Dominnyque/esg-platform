@@ -8,7 +8,8 @@ from .views import(ComingSoonView,
                    OffsetView,
                    ProjectView,
                    CareerView,
-                   FAQView
+                   FAQView,
+                   CustomLoginView
 )
 
 
@@ -23,4 +24,5 @@ urlpatterns = [
     path('projects/', ProjectView.as_view(), name='projects'),
     path('career/', CareerView.as_view(), name='career'),
     path('faq/', FAQView.as_view(), name='faq'),
+    path('login/', CustomLoginView.as_view(), name='login'),
 ]

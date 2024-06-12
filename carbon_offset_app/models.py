@@ -84,3 +84,12 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.city}, {self.country}"
+
+class Offset(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    offset_amount = models.FloatField()
+    metric_tone = models.FloatField( default =0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - Offset: {self.offset_amount}"

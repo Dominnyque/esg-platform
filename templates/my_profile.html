@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}</h1>
+    <p>Your email: {{ user.email }}</p>
+
+    <h2>Your Offsets</h2>
+    <ul>
+        {% for offset in offsets %}
+            <li>
+                Offset Amount: {{ offset.offset_amount }} Euros,
+                Created At: {{ offset.created_at }}
+            </li>
+        {% empty %}
+            <li>You have no offsets.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

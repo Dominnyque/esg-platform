@@ -1,12 +1,38 @@
-# carbon_offset_app/views.py
+import stripe
+from django.conf import settings
 from django.contrib.auth.models import User
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View, ListView
+from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from .forms import CarForm, TransportationForm, TransportationFlightForm, FlightForm, TransportationBoatForm, BoatForm, CarbonFootprintForm, OffsetByAmountForm
-from .models import Transportation, TransportationFlight, Flight, Event
+from django.contrib.auth.decorators import login_required
+from .forms import SignUpForm, CarForm, TransportationForm, TransportationFlightForm, FlightForm, TransportationBoatForm, BoatForm, CarbonFootprintForm, OffsetByAmountForm
+from django.contrib.auth import login
+from django.utils.decorators import method_decorator
+from .models import Offset, Transportation, TransportationFlight, Flight, Event
+
+
+
+class SignUpView(CreateView):
+    model = User
+    form_class = SignUpForm
+    template_name = 'registration/signup.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.save()
+        login(self.request, user)
+        return response
+
+
+
+
+
+
+
 
 class CalculateCarbonOffsetCarView(FormView):
     template_name = 'calculate_car.html'
@@ -48,12 +74,19 @@ class CalculateCarbonOffsetCarView(FormView):
                 # Calculate cost in Euro (€) based on carbon emission (1€ per metric ton)
                 cost_in_euro = transportation_instance.carbon_emission
                 cost_in_euro_multiplier = cost_in_euro * 15
+                amount_in_cents = int(cost_in_euro_multiplier * 100)  # Amount in cents
+
+                # Render payment page with Stripe button
                 return render(
                     self.request,
                     'payment.html',
-                    {'cost_in_euro': cost_in_euro, 'cost_in_euro_multiplier': cost_in_euro_multiplier, 'stripe_public_key': 'your_stripe_public_key'},
-                    )
-
+                    {
+                        'cost_in_euro': cost_in_euro,
+                        'cost_in_euro_multiplier': cost_in_euro_multiplier,
+                        'amount_in_cents': amount_in_cents,
+                        'stripe_public_key': settings.STRIPE_PUBLIC_KEY
+                    },
+                )
 
         # Handle form validation errors
         return render(self.request, self.template_name, {'car_form': car_form, 'transportation_form': transportation})
@@ -71,6 +104,13 @@ class CalculateCarbonOffsetCarView(FormView):
         multiplier = 1 if distance_type == 'km' else 7.7900747
         return emission_factors[car_type] * distance * multiplier
 
+
+
+
+
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CalculateCarbonOffsetFlightView(FormView):
     template_name = 'calculate_flight.html'
@@ -117,12 +157,19 @@ class CalculateCarbonOffsetFlightView(FormView):
                 # Calculate cost in Euro (€) based on carbon emission (1€ per metric ton)
                 cost_in_euro = transportation_instance.carbon_emission
                 cost_in_euro_multiplier = cost_in_euro * 15
+                amount_in_cents = int(cost_in_euro_multiplier * 100)  # Amount in cents
+
+                # Render payment page with Stripe button
                 return render(
                     self.request,
                     'payment.html',
-                    {'cost_in_euro': cost_in_euro, 'cost_in_euro_multiplier': cost_in_euro_multiplier, 'stripe_public_key': 'your_stripe_public_key'},
-                    )
-
+                    {
+                        'cost_in_euro': cost_in_euro,
+                        'cost_in_euro_multiplier': cost_in_euro_multiplier,
+                        'amount_in_cents': amount_in_cents,
+                        'stripe_public_key': settings.STRIPE_PUBLIC_KEY
+                    },
+                )
 
         # Handle form validation errors
         return render(self.request, self.template_name, {'flight_form': flight_form, 'transportation_form': transportation})
@@ -133,7 +180,90 @@ class CalculateCarbonOffsetFlightView(FormView):
             'premium': 0.27333,
         }
         multiplier = 1 if distance_in == 'hour' else 7.7
-        return emission_factors[flight_class] * flight_hours * multiplier*travelers
+        return emission_factors[flight_class] * flight_hours * multiplier * travelers
+
+
+
+
+
+
+
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+class StripeCheckoutView(View):
+    def post(self, request, *args, **kwargs):
+        token = request.POST.get('stripeToken')
+        amount_in_cents = int(request.POST.get('amount_in_cents'))
+
+        try:
+            charge = stripe.Charge.create(
+                amount=amount_in_cents,
+                currency='eur',
+                description='Carbon Offset',
+                source=token
+            )
+            offset = Offset.objects.create(
+                user = self.request.user,
+                offset_amount = amount_in_cents / 100,
+                metric_tone = round(amount_in_cents / 1500, 2)
+
+            )
+            return render(request, 'success.html', {'charge': charge})
+
+        except stripe.error.CardError as e:
+            # The card has been declined
+            return render(request, 'payment.html', {
+                'error': f"Card error: {e.user_message}",
+                'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                'amount_in_cents': amount_in_cents
+            })
+        except stripe.error.RateLimitError as e:
+            # Too many requests made to the API too quickly
+            return render(request, 'payment.html', {
+                'error': "Rate limit error, please try again.",
+                'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                'amount_in_cents': amount_in_cents
+            })
+        except stripe.error.InvalidRequestError as e:
+            # Invalid parameters were supplied to Stripe's API
+            return render(request, 'payment.html', {
+                'error': "Invalid request error.",
+                'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                'amount_in_cents': amount_in_cents
+            })
+        except stripe.error.AuthenticationError as e:
+            # Authentication with Stripe's API failed
+            return render(request, 'payment.html', {
+                'error': "Authentication error, please try again.",
+                'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                'amount_in_cents': amount_in_cents
+            })
+        except stripe.error.APIConnectionError as e:
+            # Network communication with Stripe failed
+            return render(request, 'payment.html', {
+                'error': "Network error, please try again.",
+                'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                'amount_in_cents': amount_in_cents
+            })
+        except stripe.error.StripeError as e:
+            # Display a generic error to the user, and maybe send
+            # yourself an email
+            return render(request, 'payment.html', {
+                'error': "Something went wrong. Please try again.",
+                'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                'amount_in_cents': amount_in_cents
+            })
+        except Exception as e:
+            # Something else happened, completely unrelated to Stripe
+            return render(request, 'payment.html', {
+                'error': f"An error occurred: {str(e)}",
+                'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                'amount_in_cents': amount_in_cents
+            })
+
+
+
 
 
 class CalculateCarbonOffsetBoatView(FormView):
@@ -177,12 +307,19 @@ class CalculateCarbonOffsetBoatView(FormView):
                 # Calculate cost in Euro (€) based on carbon emission (1€ per metric ton)
                 cost_in_euro = transportation_instance.carbon_emission
                 cost_in_euro_multiplier = cost_in_euro * 15
+                amount_in_cents = int(cost_in_euro_multiplier * 100)  # Amount in cents
+
+                # Render payment page with Stripe button
                 return render(
                     self.request,
                     'payment.html',
-                    {'cost_in_euro': cost_in_euro, 'cost_in_euro_multiplier': cost_in_euro_multiplier, 'stripe_public_key': 'your_stripe_public_key'},
-                    )
-
+                    {
+                        'cost_in_euro': cost_in_euro,
+                        'cost_in_euro_multiplier': cost_in_euro_multiplier,
+                        'amount_in_cents': amount_in_cents,
+                        'stripe_public_key': settings.STRIPE_PUBLIC_KEY
+                    },
+                )
 
         # Handle form validation errors
         return render(self.request, self.template_name, {'boat_form': boat_form, 'transportation_form': transportation})
@@ -192,8 +329,13 @@ class CalculateCarbonOffsetBoatView(FormView):
             'cruise': 0.29266,
             'live_aboard': 0.56066,
         }
-        multiplier = 1 #if distance_type == 'hour' else 0.6
-        return emission_factors[boat_type] * days *people *multiplier
+        multiplier = 1
+        return emission_factors[boat_type] * days * people * multiplier
+
+
+
+
+
 
 
 class CalculateCarbonOffsetView(TemplateView):
@@ -212,13 +354,23 @@ class CalculateCarbonOffsetView(TemplateView):
             # Assuming 1 Euro per metric ton
             cost_in_euro = carbon_footprint
             cost_in_euro_multiplier = cost_in_euro * 15  # Converting to cents for Stripe
+            amount_in_cents = int(cost_in_euro_multiplier * 100)  # Amount in cents
+
+            # Render payment page with Stripe button
             return render(
                 self.request,
                 'payment.html',
-                {'cost_in_euro': cost_in_euro, 'cost_in_euro_multiplier': cost_in_euro_multiplier, 'stripe_public_key': 'your_stripe_public_key'}
-                )
+                {
+                    'cost_in_euro': cost_in_euro,
+                    'cost_in_euro_multiplier': cost_in_euro_multiplier,
+                    'amount_in_cents': amount_in_cents,
+                    'stripe_public_key': settings.STRIPE_PUBLIC_KEY
+                }
+            )
         else:
             return render(request, self.template_name, {'form': form})
+
+
 
 
 class CarbonOffsetByAmountView(TemplateView):
@@ -233,14 +385,37 @@ class CarbonOffsetByAmountView(TemplateView):
     def post(self, request, *args, **kwargs):
         form = OffsetByAmountForm(request.POST)
         if form.is_valid():
-            footprint_offset = form.cleaned_data['footprint_offset']/15
+            footprint_offset = form.cleaned_data['footprint_offset'] / 15
             # Assuming 1 Euro per metric ton
             cost_in_euro = footprint_offset
             cost_in_euro_multiplier = cost_in_euro * 15  # Converting to cents for Stripe
+            amount_in_cents = int(cost_in_euro_multiplier * 100)  # Amount in cents
+
+            # Render payment page with Stripe button
             return render(
                 self.request,
                 'payment.html',
-                {'cost_in_euro': cost_in_euro, 'cost_in_euro_multiplier': cost_in_euro_multiplier, 'stripe_public_key': 'your_stripe_public_key'}
-                )
+                {
+                    'cost_in_euro': cost_in_euro,
+                    'cost_in_euro_multiplier': cost_in_euro_multiplier,
+                    'amount_in_cents': amount_in_cents,
+                    'stripe_public_key': settings.STRIPE_PUBLIC_KEY
+                }
+            )
         else:
             return render(request, self.template_name, {'form': form})
+
+
+@method_decorator(login_required, name='dispatch')
+class MyProfileView(LoginRequiredMixin, ListView):
+    model = Offset
+    template_name = 'my_profile.html'
+    context_object_name = 'offsets'
+
+    def get_queryset(self):
+        return Offset.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context

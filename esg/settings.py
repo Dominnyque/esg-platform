@@ -28,7 +28,7 @@ SECRET_KEY = env('SECRET_KEY')
 # False if not in os.environ because of casting above
 DEBUG = True
 env = environ.Env(
-    DEBUG=(bool,True))
+    DEBUG=(bool,False))
 
 environ.Env.read_env()
 
@@ -156,3 +156,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
+
+LOGIN_REDIRECT_URL = 'my_profile'
+LOGIN_URL = 'login'
+
+STRIPE_SECRET_KEY=env('STRIPE_SECRET_KEY')
+STRIPE_PUBLIC_KEY="pk_test_51P4dzRIDJpygr56UUHHJA8mEUL8KKn6ZR6aDdBKaOxvh70CwBpYpscRB5LCYAjz7FfakJxYmh5dro98nXHMS6zwY00jxKMg1Oq"
