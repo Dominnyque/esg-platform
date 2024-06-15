@@ -15,8 +15,9 @@
           <div class="relative mb-4">
               <p>Carbon Footprint: {{ cost_in_euro|floatformat:"2" }} MT</p>
               <p>Carbon Offset: {{ cost_in_euro_multiplier|floatformat:"2" }}€</p>
+
           </div>
-          {% if user.is_authenticated %}
+          {% if user.is_authenticated and cost_in_euro_multiplier > 0.499 %}
           <h1 class="title-font font-medium text-xl text-center text-gray-900">Offset Now</h1>
 
           <form class="mb-12 mt-4 bg-green-600 text-center border-0 py-2 px-8 focus:outline-none hover:bg-black rounded text-lg" action="{% url 'stripe-checkout' %}" method="POST">
@@ -33,7 +34,11 @@
                   data-currency="eur">
               </script>
           </form>
-          {% else %}
+          {% elif user.is_authenticated and cost_in_euro_multiplier < 0.499 %}
+
+           <p class="text-red-500 mb-12"> The minimum amount for offset is 0.5€ </p>
+           {% else %}
+
           <h1 class="m-4 title-font font-medium text-xl text-center text-gray-900">Login to offset</h1>
           <a class="mb-12 mt-4 bg-green-600 text-center text-white border-0 py-2 px-8 focus:outline-none hover:bg-black rounded text-lg" href="{% url 'login' %}">Login</a>
           {% endif %}

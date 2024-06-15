@@ -1,14 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
-    <h1>{{ title }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% block content %}
+
+
+<section class="text-gray-600 body-font relative">
+    <div class="container px-5 py-12 mx-auto ">
+      <div class="flex flex-col text-center w-full mb-12 ">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Login to your offset Dashboard</h1>
+
+      </div>
+      <div class="lg:w-1/4 md:w-2/5 mx-auto ">
+        <div class="text-left mx-400">
+            <form method="post" class="mb-64">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="text-white bg-green-500 border-0 py-2 px-6 mb-4 focus:outline-none hover:bg-green-600 rounded text-lg">Login</button>
+                <br><span>New to Us ?</span> <span>  <a class="text-white bg-gray-700 py-1 px-4 rounded" href="{% url 'signup' %}">Create Account Here</a></span>
+            </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+{% endblock %}

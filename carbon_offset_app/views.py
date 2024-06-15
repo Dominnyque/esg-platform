@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.views.generic import TemplateView, View, ListView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -209,7 +209,7 @@ class StripeCheckoutView(View):
                 metric_tone = round(amount_in_cents / 1500, 2)
 
             )
-            return render(request, 'success.html', {'charge': charge})
+            return redirect('my_profile')
 
         except stripe.error.CardError as e:
             # The card has been declined

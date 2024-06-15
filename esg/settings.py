@@ -71,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'esg.urls'
@@ -159,6 +160,7 @@ CRISPY_TEMPLATE_PACK = "tailwind"
 
 LOGIN_REDIRECT_URL = 'my_profile'
 LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'home'
 
 STRIPE_SECRET_KEY=env('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY="pk_test_51P4dzRIDJpygr56UUHHJA8mEUL8KKn6ZR6aDdBKaOxvh70CwBpYpscRB5LCYAjz7FfakJxYmh5dro98nXHMS6zwY00jxKMg1Oq"

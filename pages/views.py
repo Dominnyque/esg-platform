@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import logout
+from django.urls import reverse_lazy
+
 
 # Create your views here.
 
@@ -12,6 +15,17 @@ class CustomLoginView(LoginView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Login'
         return context
+
+
+
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect(self.next_page)
+
+
 
 class ComingSoonView(generic.TemplateView):
     template_name = 'commingsoon.html'

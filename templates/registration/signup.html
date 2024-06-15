@@ -2,6 +2,7 @@
 {% load tailwind_filters %}
 {% block content %}
 
+
 <section class="text-gray-600 body-font relative">
     <div class="container px-5 py-12 mx-auto ">
       <div class="flex flex-col text-center w-full mb-12 ">
@@ -10,10 +11,11 @@
       </div>
       <div class="lg:w-1/4 md:w-2/5 mx-auto ">
         <div class="text-left mx-400">
-            <form method="post">
+            <form method="post" class="mb-64">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Signup</button>
+                <button type="submit" class="text-white bg-green-500 border-0 py-2 px-6 mb-4 focus:outline-none hover:bg-green-600 rounded text-lg">Signup</button>
+                <br><span>Already Have an account ?</span> <span>  <a class="text-white bg-gray-700 py-1 px-4 rounded" href="{% url 'login' %}">Login</a></span>
             </form>
         </div>
       </div>

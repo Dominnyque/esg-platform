@@ -100,6 +100,7 @@ class OffsetByAmountForm(forms.Form):
 
 
 
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -107,9 +108,30 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Remove default help texts
+        self.fields['username'].help_text = ''
+        self.fields['password1'].help_text = ''
+        self.fields['password2'].help_text = ''
+
+        # Customize error messages
+        self.fields['username'].error_messages.update({
+            'required': 'Please enter a username.',
+            'unique': 'This username is already taken. Please choose another.',
+        })
+        self.fields['password1'].error_messages.update({
+            'required': 'Please enter a password.',
+        })
+        self.fields['password2'].error_messages.update({
+            'required': 'Please confirm your password.',
+        })
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
         return user
+

@@ -1,22 +1,84 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Profile</title>
-</head>
-<body>
-    <h1>Welcome, {{ user.username }}</h1>
-    <p>Your email: {{ user.email }}</p>
+{% extends "base.html" %}
 
-    <h2>Your Offsets</h2>
-    <ul>
-        {% for offset in offsets %}
-            <li>
-                Offset Amount: {{ offset.offset_amount }} Euros,
-                Created At: {{ offset.created_at }}
-            </li>
-        {% empty %}
-            <li>You have no offsets.</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% block content %}
+
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto flex flex-col">
+      <div class="lg:w-4/6 mx-auto">
+
+        <div class="flex flex-col sm:flex-row mt-10">
+          <div class="sm:w-1/3 text-center sm:pr-8 sm:py-8">
+            <div class="w-20 h-20 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div class="flex flex-col items-center text-center justify-center">
+              <h2 class="font-medium title-font mt-4 text-gray-900 text-lg">{{ user.username }}</h2>
+              <div class="w-12 h-1 bg-green-500 rounded mt-2 mb-4"></div>
+              <p class="text-base">{{ user.first_name }} {{user.last_name}}</p>
+              <p class="text-base">{{ user.email }}.</p>
+
+              <form class="bg-red-800 text-white py-1.5 px-4 m-3 rounded" action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-info">Logout</button>
+              </form>
+            </div>
+          </div>
+          <div class="sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
+
+
+
+            <section class="text-gray-600 body-font">
+                <div class="container px-5 mx-auto">
+                  <div class="flex flex-col text-center w-full mb-4">
+                    <h1 class="sm:text-2xl text-xl font-medium title-font mb-2 text-gray-900">Offsets </h1>
+                     </div>
+                     {% if offsets %}
+                  <div class="w-full mx-auto overflow-auto">
+
+                    <table class="table-auto w-full text-left whitespace-no-wrap">
+                      <thead>
+                        <tr>
+                          <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100 rounded-tl rounded-bl">Metric Tones</th>
+                          <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Date</th>
+                          <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100 text-right">Amount</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% for offset in offsets %}
+                        <tr class="border-2 border-green-100">
+                          <td class="px-4 py-3">{{ offset.metric_tone }} MT</td>
+                          <td class="px-4 py-3">{{ offset.created_at|date }}</td>
+                          <td class="px-4 py-3 text-right">{{ offset.offset_amount }}€</td>
+                        </tr>
+                        {% endfor %}
+
+
+                      </tbody>
+                    </table>
+                    {% else %}
+                    <h1 class="sm:text-2xl text-xl font-medium title-font mb-2 text-gray-900">You did not offset Your Carbon Footprint yet </h1>
+                  </div>
+                  {% endif %}
+                  <div class="flex mt-4 lg:w-3/3 w-full mx-auto">
+                    <a href="{% url 'calculate_car' %}" class="text-green-500 inline-flex items-center md:mb-2 lg:mb-0">Go to Calculator
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                    <a href="{% url 'offset_amount' %}" class="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded">Offset by amount</a>
+                  </div>
+                </div>
+              </section>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}

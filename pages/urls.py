@@ -9,7 +9,9 @@ from .views import(ComingSoonView,
                    ProjectView,
                    CareerView,
                    FAQView,
-                   CustomLoginView
+                   CustomLoginView,
+                   CustomLogoutView
+
 )
 
 
@@ -25,4 +27,6 @@ urlpatterns = [
     path('career/', CareerView.as_view(), name='career'),
     path('faq/', FAQView.as_view(), name='faq'),
     path('login/', CustomLoginView.as_view(), name='login'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
+
 ]
